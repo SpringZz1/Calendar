@@ -8,10 +8,10 @@ function getFirstWeekDay(year, month) {
 }
 
 /**
- * 知道上个月有多少天
+ * 知道某年某月有多少天
  */
 export function getMonthDayCount(year, month) {
-  // 最后参数填0，则获取到上个月最后一天
+  // 最后参数填0，则获取到这个月最后一天是几号，也就能知道这个月到底多少天
   const date = new Date(year, month, 0);
   return date.getDate();
 }
@@ -63,7 +63,7 @@ export function getDateInfo(timeStamp) {
 /**
  * 设置渲染格式，如果月份和日小于10，则返回0+月份或者日
  */
-function formatDate(year, month, date) {
+export function getFormatDate(year, month, date) {
   const dateArr = [year, month, date];
 
   for (let i = 1; i < dateArr.length; i++) {

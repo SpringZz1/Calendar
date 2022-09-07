@@ -4,6 +4,7 @@ import {
   getLastMonthDayCount,
   getMonthDayCount,
   getNextMonthDayCount,
+  getFormatDate,
 } from './utils';
 
 export function createWeekDaysNode() {
@@ -34,6 +35,7 @@ export function createDateNode(year, month) {
     year,
     month
   );
+  console.log(lastMonthRestDays, currentMonthDayDays, nextMonthRestDays);
   const nextMonthRestDaysTD = createRestDaysTd(nextMonthRestDays);
 
   const tdArr = [
@@ -42,7 +44,18 @@ export function createDateNode(year, month) {
     ...nextMonthRestDaysTD,
   ];
 
-  return { lastMonthRestDaysTD, currentMonthDaysTD, nextMonthRestDaysTD };
+  let index = 0;
+
+  dateTrArr.forEach((tr) => {
+    for (let i = 0; i < 7; i++) {
+      tr.appendChild(tdArr[index]);
+      index++;
+    }
+  });
+
+  return dateTrArr;
+
+  // return { lastMonthRestDaysTD, currentMonthDaysTD, nextMonthRestDaysTD };
 }
 
 /**
@@ -89,8 +102,33 @@ function createCurrentDaysTd(currentDayCount, year, month) {
     }
 
     oTd.innerText = i;
+    oTd.setAttribute('data-date', getFormatDate(year, month, i));
     tdArr.push(oTd);
   }
 
   return tdArr;
+}
+
+/**
+ * 创建控件区
+ */
+export function createControlArea(year, month) {
+  const oArea = document.createElement('div');
+  oArea.className = 'control-area';
+
+  oArea.innerHTML = `
+    <span class="control-button btn-year-lt">&lt;&lt;</span>
+    <span class="control-button btn-month-lt">&lt;</span>
+    <span class="control-show">
+      <span class="control-title">
+        <span class="title-year">${year}</span>年
+      </span>
+      <span class="control-title">
+        <span class="title-month">${month}</span>月
+      </span>
+    </span>
+    <span class="control-button btn-month-gt">&gt;</span>
+    <span class="control-button btn-year-gt">&gt;&gt;</span>`;
+
+  return oArea;
 }
