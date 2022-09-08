@@ -1,20 +1,18 @@
-import { getDateInfo } from './utils';
-import { render, update } from './render';
+import { render } from './date/render';
 import './index.scss';
 import event from './event';
-import reactive from './reactive';
+import { reactive } from './store';
 
-export default (handler) => {
+export default (el, [year, month], handler) => {
+  const oApp = document.querySelector(el);
   const oContainer = document.createElement('div');
-  const dateInfo = reactive();
+  const dateInfo = reactive({ year, month });
   // oContainer.border = 1;
   oContainer.className = 'my-calendar';
 
+  render(oContainer, year, month);
+
   event(oContainer, handler, dateInfo);
 
-  return {
-    render: render(oContainer), // 柯里化render函数
-    update,
-    getDateInfo,
-  };
+  oApp.appendChild(oContainer);
 };
