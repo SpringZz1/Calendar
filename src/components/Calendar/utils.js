@@ -15,7 +15,7 @@ export function createTrs(count) {
 /**
  * 工具函数
  */
-export function getDateInfo(timeStamp) {
+export function getDateInfo(timeStamp) {``
   let date = timeStamp ? new Date(timeStamp) : new Date();
 
   return [date.getFullYear(), date.getMonth() + 1, date.getDate()];

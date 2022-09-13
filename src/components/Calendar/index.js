@@ -10,6 +10,7 @@ export default (el, [year, month], handler) => {
   // oContainer.border = 1;
   oContainer.className = 'my-calendar';
 
+
   render(oContainer, year, month);
 
   event(oContainer, handler, dateInfo);

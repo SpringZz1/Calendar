@@ -44,7 +44,7 @@ export function createDateNode(year, month) {
     year,
     month
   );
-  console.log(lastMonthRestDays, currentMonthDayDays, nextMonthRestDays);
+  // console.log(lastMonthRestDays, currentMonthDayDays, nextMonthRestDays);
   const nextMonthRestDaysTD = createRestDaysTd(nextMonthRestDays);
 
   const tdArr = [
@@ -56,9 +56,8 @@ export function createDateNode(year, month) {
   let index = 0;
 
   dateTrArr.forEach((tr) => {
-    for (let i = 0; i < 7; i++) {
-      tr.appendChild(tdArr[index]);
-      index++;
+    for (let i = 0; i < 7 && tdArr[index]; i++) {
+      tr.appendChild(tdArr[index++]);
     }
   });
 
@@ -89,11 +88,9 @@ function createCurrentDaysTd(currentDayCount, year, month) {
 
   for (let i = 1; i <= currentDayCount; i++) {
     const oTd = document.createElement('td');
-
+    oTd.className = 'day current-day';
     if (currentYear === year && currentMonth === month && currentDate === i) {
-      oTd.className = 'day current-day current';
-    } else {
-      oTd.className = 'day current-day';
+      oTd.className += ' current';
     }
 
     oTd.innerText = i;
@@ -127,7 +124,7 @@ export function createControlArea(year, month) {
       <span class="control-button btn-year-gt">&gt;&gt;</span>`;
   } else {
     domPoll.controlArea.querySelector('.title-year').innerText = year;
-    domPoll.controlArea.querySelector('.title-momth').innerText = month;
+    domPoll.controlArea.querySelector('.title-month').innerText = month;
   }
 
   return domPoll.controlArea;

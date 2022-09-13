@@ -1,15 +1,15 @@
+import { ALLOWED_FLAGS, getFlag, setFlag } from './store';
+
 let target = null;
 
-export default (container, handler, dateInfo) => {
-  container.addEventListener(
-    'click',
-    handlClick.bind(null, handler, dateInfo),
-    false
-  );
+export default (...args) => {
+  const [container] = args;
+  container.addEventListener('click', handlClick.bind(null, ...args), false);
 };
 
 function handlClick(...args) {
-  const [handler, dateInfo, e] = args;
+  const [container, handler, dateInfo, e] = args;
+  const flag = getFlag();
 
   const tar = e.target;
   const className = tar.className;
@@ -19,7 +19,26 @@ function handlClick(...args) {
     return;
   }
 
-  controlClick(className, dateInfo);
+  if (className.includes('decade-year')) {
+    yearClick(container, tar, dateInfo);
+  }
+  if (className === 'title-year') {
+    titleYearClick(container, dateInfo);
+    return;
+  }
+
+  switch (flag) {
+    case ALLOWED_FLAGS.YEAR:
+      yearControlClick(className, dateInfo);
+      break;
+    case ALLOWED_FLAGS.MONTH:
+      break;
+    case ALLOWED_FLAGS.DATE:
+      dateControlClick(className, dateInfo);
+      break;
+    default:
+      break;
+  }
 }
 
 function dateClick(tar, handler) {
@@ -31,10 +50,18 @@ function dateClick(tar, handler) {
   tar.className += ' selected';
 
   // handler存在就执行
+  // console.log(tar.dataset.date);
   handler && handler(tar.dataset.date);
 }
 
-function controlClick(className, dateInfo) {
+function yearClick(container, tar, dateInfo) {
+  console.log(tar);
+  console.log(tar.dataset);
+  dateInfo.year = Number(tar.dataset.year);
+  setFlag(ALLOWED_FLAGS.DATE, container, dateInfo);
+}
+
+function dateControlClick(className, dateInfo) {
   switch (className) {
     case 'control-button btn-year-lt':
       dateInfo.year -= 1;
@@ -54,4 +81,21 @@ function controlClick(className, dateInfo) {
     default:
       break;
   }
+}
+
+function yearControlClick(className, dateInfo) {
+  switch (className) {
+    case 'year-control-button btn-year-lt':
+      dateInfo.year -= 10;
+      break;
+    case 'year-control-button btn-year-gt':
+      dateInfo.year += 10;
+      break;
+    default:
+      break;
+  }
+}
+
+function titleYearClick(container, dateInfo) {
+  setFlag(ALLOWED_FLAGS.YEAR, container, dateInfo);
 }
