@@ -2,9 +2,10 @@ import { update as dateUpdate, render as dateRender } from './date/render';
 
 import { update as yearUpdate, render as yearRender } from './year/render';
 
+import { update as monthUpdate, render as monthRender } from './month/render';
 export const ALLOWED_FLAGS = {
   YEAR: 'YEAR',
-  MONTH: 'MONTHH',
+  MONTH: 'MONTH',
   DATE: 'DATE',
 };
 
@@ -24,6 +25,8 @@ export function setFlag(value, container, { year, month }) {
         yearRender(container, year);
         break;
       case ALLOWED_FLAGS.MONTH:
+        // console.log({});
+        monthRender(container, year, month);
         break;
       case ALLOWED_FLAGS.DATE:
         dateRender(container, year, month);
@@ -70,6 +73,7 @@ function update(year, month) {
       yearUpdate(year);
       break;
     case ALLOWED_FLAGS.MONTH:
+      monthUpdate(year);
       break;
     case ALLOWED_FLAGS.DATE:
       dateUpdate(year, month);

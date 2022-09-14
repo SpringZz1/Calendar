@@ -22,8 +22,17 @@ function handlClick(...args) {
   if (className.includes('decade-year')) {
     yearClick(container, tar, dateInfo);
   }
+
+  if (className.includes('static-month')) {
+    monthClick(container, tar, dateInfo);
+  }
+
   if (className === 'title-year') {
     titleYearClick(container, dateInfo);
+    return;
+  }
+  if (className === 'title-month') {
+    titleMonthClick(container, dateInfo);
     return;
   }
 
@@ -32,6 +41,7 @@ function handlClick(...args) {
       yearControlClick(className, dateInfo);
       break;
     case ALLOWED_FLAGS.MONTH:
+      monthControlClick(className, dateInfo);
       break;
     case ALLOWED_FLAGS.DATE:
       dateControlClick(className, dateInfo);
@@ -55,9 +65,12 @@ function dateClick(tar, handler) {
 }
 
 function yearClick(container, tar, dateInfo) {
-  console.log(tar);
-  console.log(tar.dataset);
   dateInfo.year = Number(tar.dataset.year);
+  setFlag(ALLOWED_FLAGS.DATE, container, dateInfo);
+}
+
+function monthClick(container, tar, dateInfo) {
+  dateInfo.month = Number(tar.dataset.month);
   setFlag(ALLOWED_FLAGS.DATE, container, dateInfo);
 }
 
@@ -67,7 +80,7 @@ function dateControlClick(className, dateInfo) {
       dateInfo.year -= 1;
       break;
     case 'control-button btn-month-lt':
-      dateInfo.month -= 1;
+      dateInfo.month > 1 && (dateInfo.month -= 1);
       // console.log('month-lt');
       break;
     case 'control-button btn-year-gt':
@@ -75,7 +88,7 @@ function dateControlClick(className, dateInfo) {
       // console.log('year-gt');
       break;
     case 'control-button btn-month-gt':
-      dateInfo.month += 1;
+      dateInfo.month < 12 && (dateInfo.month += 1);
       // console.log('month-gt');
       break;
     default:
@@ -96,6 +109,25 @@ function yearControlClick(className, dateInfo) {
   }
 }
 
+function monthControlClick(className, dateInfo) {
+  switch (className) {
+    case 'month-control-button btn-year-lt':
+      dateInfo.year -= 1;
+      break;
+    case 'month-control-button btn-year-gt':
+      dateInfo.year += 1;
+      break;
+    default:
+      break;
+  }
+}
+
 function titleYearClick(container, dateInfo) {
+  // console.log(dateInfo);
   setFlag(ALLOWED_FLAGS.YEAR, container, dateInfo);
+}
+
+function titleMonthClick(container, dateInfo) {
+  console.log(dateInfo);
+  setFlag(ALLOWED_FLAGS.MONTH, container, dateInfo);
 }
