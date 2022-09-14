@@ -1,11 +1,13 @@
 import { createYearControlArea, createYearNode } from './creator';
 import { getStarYearAndEndYear } from './utils';
 import './index.scss';
+import { createTable } from '../creator';
 
 export function render(container, year) {
   container.innerHTML = '';
-  const oTable = document.createElement('table');
-  oTable.className = 'my-year-calendar-table';
+  // const oTable = document.createElement('table');
+  const oTable = createTable('my-year-calendar-table');
+  // oTable.className = 'my-year-calendar-table';
 
   const controlArea = createYearControlArea(year);
   // console.log(controlArea);

@@ -1,3 +1,4 @@
+import { createTable } from '../creator';
 import {
   createWeekDaysNode,
   createDateNode,
@@ -9,14 +10,14 @@ import './index.scss';
 export function render(container, year, month) {
   container.innerHTML = '';
   // 创建表格
-  const oTable = document.createElement('table');
+  const oTable = createTable('my-calendar-table');
   const oTHead = document.createElement('thead');
   const oTBody = document.createElement('tbody');
 
   const weekDayNode = createWeekDaysNode();
 
   oTBody.className = 'my-calendar-body';
-  oTable.className = 'my-calendar-table';
+  // oTable.className = 'my-calendar-table';
 
   // 创建节点，还未渲染
   const dateTrs = createDateNode(year, month);
